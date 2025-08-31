@@ -60,6 +60,11 @@ class Team extends Model
         return $this->hasMany(ContractTemplate::class);
     }
 
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
     public function updateBrandLogo(UploadedFile $image)
     {
         tap($this->brand_logo_path, function ($previous) use ($image) {
