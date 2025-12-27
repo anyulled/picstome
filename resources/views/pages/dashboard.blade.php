@@ -297,13 +297,19 @@ new class extends Component
             <flux:spacer class="my-6" />
 
             @if (! $this->team->subscribed())
-                <flux:callout icon="shield-check">
-                    <flux:callout.heading>{{ __('Get More With Picstome Pro') }}</flux:callout.heading>
+                <flux:callout icon="shield-check" color="teal" inline>
+                    <flux:callout.heading>
+                        <flux:text variant="strong">
+                            {{ __('Get More With Picstome Pro') }}
+                        </flux:text>
+                    </flux:callout.heading>
                     <flux:callout.text>
-                        {{ __('Unlock 1000GB storage, payments, gallery expiry dates, unlimited contracts, and white label branding. Upgrade to Pro and power up your business.') }}
+                        <flux:text variant="strong" class="font-medium">
+                            {{ __('Unlock 1000GB storage, payments, gallery expiry dates, unlimited contracts, and white label branding. Upgrade to Pro and power up your business.') }}
+                        </flux:text>
                     </flux:callout.text>
                     <x-slot name="actions">
-                        <flux:button :href="route('subscribe')" variant="primary">
+                        <flux:button :href="route('subscribe')" variant="primary" color="teal">
                             {{ __('Upgrade to Pro') }}
                         </flux:button>
                     </x-slot>
@@ -422,28 +428,23 @@ new class extends Component
                                         ></a>
                                         <div class="flex flex-wrap items-center gap-2">
                                             {{ $event['label'] }}
-                                            @if (!empty($event['is_today']) && $event['is_today'])
-                                                <flux:badge color="green" inset="top bottom" icon="sun" size="sm">
-                                                    {{ __('Today') }}
-                                                </flux:badge>
-                                            @endif
-                                            @if ($event['type'] === 'birthday')
-                                                <flux:badge color="yellow" inset="top bottom" icon="cake" size="sm">
-                                                    {{ __('Birthday soon') }}
-                                                </flux:badge>
-                                            @elseif ($event['type'] === 'photoshoot')
-                                                <flux:badge color="blue" inset="top bottom" icon="camera" size="sm">
-                                                    {{ __('Scheduled') }}
-                                                </flux:badge>
-                                            @elseif ($event['type'] === 'gallery')
-                                                <flux:badge color="red" inset="top bottom" icon="clock" size="sm">
-                                                    {{ __('Expiring soon') }}
-                                                </flux:badge>
-                                            @elseif ($event['type'] === 'contract')
-                                                <flux:badge color="orange" inset="top bottom" icon="document" size="sm">
-                                                    {{ __('Awaiting signature') }}
-                                                </flux:badge>
-                                            @endif
+@if ($event['type'] === 'birthday')
+    <flux:badge color="{{ !empty($event['is_today']) && $event['is_today'] ? 'green' : 'yellow' }}" inset="top bottom" icon="cake" size="sm">
+        {{ !empty($event['is_today']) && $event['is_today'] ? __('Birthday today') : __('Birthday soon') }}
+    </flux:badge>
+@elseif ($event['type'] === 'photoshoot')
+    <flux:badge color="{{ !empty($event['is_today']) && $event['is_today'] ? 'green' : 'blue' }}" inset="top bottom" icon="camera" size="sm">
+        {{ !empty($event['is_today']) && $event['is_today'] ? __('Scheduled today') : __('Scheduled') }}
+    </flux:badge>
+@elseif ($event['type'] === 'gallery')
+    <flux:badge color="{{ !empty($event['is_today']) && $event['is_today'] ? 'green' : 'red' }}" inset="top bottom" icon="clock" size="sm">
+        {{ !empty($event['is_today']) && $event['is_today'] ? __('Expiring today') : __('Expiring soon') }}
+    </flux:badge>
+@elseif ($event['type'] === 'contract')
+    <flux:badge color="orange" inset="top bottom" icon="document" size="sm">
+        {{ __('Awaiting signature') }}
+    </flux:badge>
+@endif
                                         </div>
                                     </x-table.cell>
                                     <x-table.cell class="relative" align="end">
